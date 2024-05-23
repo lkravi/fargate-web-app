@@ -11,7 +11,8 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 CORS(app)
 
-# Get the full endpoint and port separately
+# Get environment variables
+USE_LOCAL_DB = os.environ.get('USE_LOCAL_DB', 'false').lower() == 'true'
 ENDPOINT = os.environ.get('MYSQL_DATABASE_HOST')
 PORT = int(os.environ.get('MYSQL_DATABASE_PORT', 3306))
 USER = os.environ.get('MYSQL_DATABASE_USER')
@@ -29,8 +30,9 @@ logging.debug(f"User: {USER}")
 logging.debug(f"Region: {REGION}")
 logging.debug(f"Database Name: {DBNAME}")
 
-session = boto3.Session()
-client = session.client('rds')
+if not USE_LOCAL_DB:
+    session = boto3.Session()
+    client = session.client('rds')
 
 def get_db_connection():
     try:
@@ -39,17 +41,27 @@ def get_db_connection():
         logging.debug(f"User: {USER}")
         logging.debug(f"Region: {REGION}")
         logging.debug(f"Database Name: {DBNAME}")
-        token = client.generate_db_auth_token(DBHostname=ENDPOINT, Port=PORT, DBUsername=USER, Region=REGION)
-        logging.debug(f"Generated Auth Token: {token}")
 
-        connection = pymysql.connect(
-            host=ENDPOINT,
-            user=USER,
-            password=token,
-            port=PORT,
-            database=DBNAME,
-            ssl_ca=SSL_CERTIFICATE
-        )
+        if USE_LOCAL_DB:
+            connection = pymysql.connect(
+                host=ENDPOINT,
+                user=USER,
+                password=os.environ.get('MYSQL_DATABASE_PASSWORD'),
+                port=PORT,
+                database=DBNAME
+            )
+        else:
+            token = client.generate_db_auth_token(DBHostname=ENDPOINT, Port=PORT, DBUsername=USER, Region=REGION)
+            logging.debug(f"Generated Auth Token: {token}")
+            connection = pymysql.connect(
+                host=ENDPOINT,
+                user=USER,
+                password=token,
+                port=PORT,
+                database=DBNAME,
+                ssl_ca=SSL_CERTIFICATE
+            )
+
         logging.debug("Successfully connected to the database")
         return connection
     except Exception as e:

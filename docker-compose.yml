@@ -1,39 +1,36 @@
 version: '3'
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: bookdb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-  backend:
-    build: ./backend
-    ports:
-      - "5001:5001"
-    depends_on:
-      - mysql
-    environment:
-      MYSQL_DATABASE_HOST: mysql
-      MYSQL_DATABASE_PORT: 3306
-      MYSQL_DATABASE_USER: user
-      MYSQL_DATABASE_PASSWORD: password
-      MYSQL_DATABASE_DB: bookdb
-
   frontend:
     build: ./frontend
     ports:
       - "8080:8080"
     depends_on:
       - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
     environment:
-      BACKEND_API_URL: http://backend:5001
+      MYSQL_DATABASE_HOST: "mysql"
+      MYSQL_DATABASE_PORT: "3306"
+      MYSQL_DATABASE_USER: "tf_rds_user1"
+      MYSQL_DATABASE_PASSWORD: "password"  # Set your password here
+      MYSQL_DATABASE_DB: "bookdb"
+      USE_LOCAL_DB: "true"
+      AWS_REGION: "us-east-1"
+      DB_MASTER_USER: "root"
+      DB_MASTER_PASSWORD: "rootpassword"
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpassword"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
-  mysql_data:
+  mysql-data:
