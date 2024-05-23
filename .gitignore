@@ -6,6 +6,17 @@ terraform/*.tfvars
 terraform/*.tfvars.json
 terraform/*.tfplan
 terraform/*.tfplan.*
+terraform/*.lock.hcl
+
+# Python backend
+terraform/lambda/myenv/
+terraform/lambda/package/
+terraform/lambda/pymysql
+terraform/lambda/PyMy*
+terraform/lambda/*.zip
+terraform/lambda/__pycache__/
+terraform/lambda/*.pyc
+
 
 # Python backend
 backend/venv/
