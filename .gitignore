@@ -1,0 +1,26 @@
+# Compiled output
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/*.tfvars
+terraform/*.tfvars.json
+terraform/*.tfplan
+terraform/*.tfplan.*
+
+# Logs
+*.log
+crash.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*.vscode/
+*.idea/
+
+# Backup files
+*.bak
+*.backup
