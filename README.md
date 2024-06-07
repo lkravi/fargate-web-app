@@ -35,6 +35,11 @@ This repository contains the code and configuration for a web application runnin
 │   ├── variables.tf
 │   ├── outputs.tf
 │   └── ...
+├── tests
+│   ├── Dockerfile.test
+│   ├── requirements.txt
+│   ├── test_app.py
+│   └── ...
 ```
 
 ### Folders and Important Files
@@ -57,6 +62,11 @@ This repository contains the code and configuration for a web application runnin
   - `outputs.tf`: Defines outputs from the Terraform configuration.
 
 - **docker-compose.yml**: Docker Compose file to set up the local development environment.
+
+- **tests/**: Contains the test setup for the application.
+  - Dockerfile.test: Dockerfile for the test environment.
+  - requirements.txt: Python dependencies for the tests.
+  - test_app.py: Test script to validate the frontend and backend functionality.
 
 ## Local Setup Guide
 
