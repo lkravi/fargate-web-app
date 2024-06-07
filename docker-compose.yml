@@ -4,8 +4,11 @@ services:
     build: ./frontend
     ports:
       - "8080:8080"
+    environment:
+      - VUE_APP_BACKEND_URL=http://backend:5001
     depends_on:
       - backend
+      - mysql
 
   backend:
     build: ./backend
@@ -21,6 +24,8 @@ services:
       AWS_REGION: "us-east-1"
       DB_MASTER_USER: "root"
       DB_MASTER_PASSWORD: "rootpassword"
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:8.0
@@ -31,6 +36,15 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  test:
+    build:
+      context: ./tests
+      dockerfile: Dockerfile.test
+    depends_on:
+      - frontend
+      - backend
+      - mysql
 
 volumes:
   mysql-data:
