@@ -64,9 +64,9 @@ This repository contains the code and configuration for a web application runnin
 - **docker-compose.yml**: Docker Compose file to set up the local development environment.
 
 - **tests/**: Contains the test setup for the application.
-  - Dockerfile.test: Dockerfile for the test environment.
-  - requirements.txt: Python dependencies for the tests.
-  - test_app.py: Test script to validate the frontend and backend functionality.
+  - `Dockerfile.test`: Dockerfile for the test environment.
+  - `requirements.txt`: Python dependencies for the tests.
+  - `test_app.py`: Test script to validate the frontend and backend functionality.
 
 ## Local Setup Guide
 
