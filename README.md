@@ -143,6 +143,10 @@ The MySQL container will automatically run the `init.sql` script located in the 
    - After the Terraform apply completes, check the AWS Management Console to verify the resources have been created.
    - Access the application via the ALB DNS name provided in the Terraform outputs.
 
+## Demo
+
+[![Watch the video](https://img.youtube.com/vi/0Fw-oYZhPQM/maxresdefault.jpg)](https://www.youtube.com/watch?v=0Fw-oYZhPQM)
+
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE. See the [LICENSE](./LICENSE) file for details.
